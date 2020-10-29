@@ -8,7 +8,6 @@ router.get("/budget", async (req, res) => {
 })
 
 router.post("/pushdata", async (req, res) => {
-    console.log(req);
 	const budget1 = new budget({
 		title: req.body.title,
         budget: req.body.budget,
