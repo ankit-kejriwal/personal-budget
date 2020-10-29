@@ -131,15 +131,6 @@
             datasets: [{
                 data: [],
                 backgroundColor: [
-                    "#3e95cd",
-                    "#8e5ea2",
-                    "#3cba9f",
-                    "#e8c3b9",
-                    "#c45850",
-                    "rgba(255,221,50,0.2)",
-                    "rgba(60,186,159,0.2)",
-                    "rgba(0,0,0,0.2)",
-                    "rgba(193,46,12,0.2)"
                 ],
             }],
 
@@ -193,7 +184,7 @@
 
             var color = d3.scale.ordinal()
                 .domain(dataSource.labels)
-                .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+                .range(dataSource.datasets[0].backgroundColor);
             
             var labels = color.domain();
             var i =0 ;
@@ -293,12 +284,13 @@
         }
         
         function getBudget(){
-            axios.get('http://localhost:3000/budget')
+            axios.get('http://localhost:3000/api/budget')
             .then(function (res){
                 console.log(res.data);
-                for(var i  = 0;i<res.data.myBudget.length;i++){
-                    dataSource.datasets[0].data[i] = res.data.myBudget[i].budget;
-                    dataSource.labels[i] = res.data.myBudget[i].title;
+                for(var i  = 0;i<res.data.length;i++){
+                    dataSource.datasets[0].data[i] = res.data[i].budget;
+                    dataSource.datasets[0].backgroundColor[i] = res.data[i].color;
+                    dataSource.labels[i] = res.data[i].title;
                 }
                 createChart();
                 createD3PieChart();
